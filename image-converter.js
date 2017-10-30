@@ -2,6 +2,8 @@
 var canvas = document.createElement('canvas');
 var ctx = canvas.getContext('2d');
 
+const chars = ['@', 'N', 'G', 'O', 'I', '#', 'q', 'o', 'j', 'i', 'r',  ';', ':', '^', '"', '`', ',', '.', '&nbsp'];
+
 var brightArr = [];
 
 var image = new Image();
@@ -19,25 +21,20 @@ image.onload = () => {
         }
         brightArr.push(row);
     }
-    document.body.innerHTML = getStr(brightArr);
+    document.getElementById('container').innerHTML = getStr(brightArr);
     console.log('i am free!');
 }
 
 function getStr(arr){
-    var sum = 0;
-    var count = 0;
     var min = arr[0][0];
     var max = 0;
     arr.forEach(row => {
         row.forEach(col => {
-            count++;
-            sum += col;
             if(min > col) min = col;
             if(max < col) max = col;
         })
     });
-    let brightLimit = sum / count;
-    let symbols = split(brightLimit, min, max);
+    let symbols = getCharsArray(min, max);
     console.log(symbols);
 
     let str = '';
@@ -54,12 +51,19 @@ function getStr(arr){
     });
     return str;
 }
-function split(number, min, max){
-    let output = [{val: min, symbol: '@'}];
-    output.push({val:(number + min) / 2, symbol: '#'});
-    output.push({val:number, symbol: '"'});
-    output.push({val:(number + max) / 2, symbol:'.'});
-    output.push({val: max, symbol: '&nbsp'});
+
+function getCharsArray(min, max){
+    let output = [];
+    let step = (max - min) / chars.length;
+    let pos = 0;
+    while(min <= max){
+        output.push({
+            val: min,
+            symbol: chars[pos]
+        });
+        min += step;
+        pos++;
+    }
     return output;
 }
 
