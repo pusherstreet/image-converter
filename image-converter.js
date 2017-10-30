@@ -67,6 +67,6 @@ function getCharsArray(min, max){
     return output;
 }
 
-image.src = 'poroh.jpg';
+image.src = 'messi.png';
 
 
