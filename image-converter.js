@@ -1,17 +1,45 @@
 
+const maxWith = 200;
+const maxHeight = 200;
+const chars = ['@', '&', 'R', 'H', 'N', 'G', 'I', '#', 'q', 'o', 'j', 'i', 'r',  ';', '*', ':', '^', '"', '`', ',', '.', '&nbsp'];
+
 var canvas = document.createElement('canvas');
+var container = document.getElementById('container');
+var upload = document.getElementById('uploadImage');
 var ctx = canvas.getContext('2d');
 
-const chars = ['@', 'N', 'G', 'O', 'I', '#', 'q', 'o', 'j', 'i', 'r',  ';', ':', '^', '"', '`', ',', '.', '&nbsp'];
+canvas.height = maxHeight;
+canvas.width = maxWith;
 
-var brightArr = [];
 
-var image = new Image();
-image.onload = () => {
+upload.onchange = function(e){
+    let image = new Image();
+    image.onload = imageLoadHandler;
+    clear();
+    const file = e.target.files[0];
+    try{
+        let reader = new FileReader();
+        reader.onloadend = function(){
+            console.log(reader.result);
+            image.src = reader.result;
+        }
+        reader.readAsDataURL(file);
+    }
+    catch (error){
+        console.log(error);
+        alert('Error. Please try select another file.')
+    }
+ 
+}
+
+const imageLoadHandler = (e) => {
+    let brightArr = [];
+    let image = e.target;
+    prepareImage(image);
     const width = image.width;
     const height = image.height;
     
-    ctx.drawImage(image, 0, 0);
+    ctx.drawImage(image, 0, 0, width, height);
     for(let i = 0; i < height; i++){
         let row = [];
         for(let j = 0; j < width; j++){
@@ -22,8 +50,9 @@ image.onload = () => {
         brightArr.push(row);
     }
     document.getElementById('container').innerHTML = getStr(brightArr);
-    console.log('i am free!');
+    
 }
+
 
 function getStr(arr){
     var min = arr[0][0];
@@ -67,6 +96,25 @@ function getCharsArray(min, max){
     return output;
 }
 
-image.src = 'messi.png';
+function clear(){
+    document.getElementById('container').innerHTML = '<span style="font-size: 16px;">Loading...</span>';
+    
+}
+
+function prepareImage(image){
+    if(!image.width || !image.width) throw "Invalid image";
+    if(image.height <= maxHeight && image.width <= maxWith) return;
+    let scale = 1;
+    if(image.width > image.height){
+        scale = maxWith / image.width;
+    }
+    else{
+        scale = maxHeight / image.height;
+    }
+
+    image.width = image.width * scale;
+    image.height = image.height * scale;
+}
+
 
 

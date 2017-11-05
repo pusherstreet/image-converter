@@ -8,16 +8,28 @@
 </head>
 <style>
     body{
-        font-size: 8px;
+       padding: 10px;
     }
     .point{
         display: inline-block;
-        width: 10px;
+        width: 5px;
+    }
+    #container{
+        margin-top: 20px;
+        font-size: 5px;
+    }
+    #loader{
+        display: none;
+        text-align: center;
     }
 </style>
 <body>
+    <div id="uploadBar">
+        <h3>Select image</h4>
+        <input type="file" id="uploadImage">
+    </div>
     <div id="container">
-
+        
     </div>
     <script src="image-converter.js"></script>
 </body>
