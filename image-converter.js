@@ -102,7 +102,7 @@ function clear(){
 }
 
 function prepareImage(image){
-    if(!image.width || !image.width) throw "Invalid image";
+    if(!image.width || !image.height) throw "Invalid image";
     if(image.height <= maxHeight && image.width <= maxWith) return;
     let scale = 1;
     if(image.width > image.height){
