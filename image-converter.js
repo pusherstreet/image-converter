@@ -69,7 +69,7 @@ function getStr(arr){
     let str = '';
     arr.forEach(row => {
         row.forEach(col => {
-            for(let i = symbols.length - 1; i >= 0; i--){
+            for(let i = symbols.length - 2; i >= 0; i--){
                 if(col >= symbols[i].val){
                     str += `<span class="point">${symbols[i].symbol}</span>`;
                     break;
